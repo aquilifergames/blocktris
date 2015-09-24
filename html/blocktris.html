@@ -1,137 +1,37 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
-	<meta charset="UTF-8" />
-	<title>Phaser - Making your first game, part 1</title>
-	<script type="text/javascript" src="/src/phaser.min.js"></script>
-    <style type="text/css">
-        body {
-            margin: 50;
-        }
-    </style>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Phaser - Making your first game, part 1</title>
+    <script type="text/javascript" src="/src/phaser.min.js"></script>
+    <script type="text/javascript" src="/src/preload.js"></script>
+    <script type="text/javascript" src="/src/create.js"></script>
+    <script type="text/javascript" src="/src/update.js"></script>
 </head>
 <body>
 
 <script type="text/javascript">
 
-	
-	
-	
-	var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-		preload : preload,
-		create : create,
-		update : update
-	});
+    //Global variables.
+    var rectangle = new Phaser.Rectangle(200, 200, 50, 50);
 
-	var rectangle = new Phaser.Rectangle(200,200,50,50);
+    var movingBar;
+    var barLeft;
+    var barRight;
+    var barTop;
 
-	var movingBar;
-	var barLeft;
-	var barRight;
-	var barTop;
+    var ball;
+    var ballVelocity = 450;
 
-	var ball;
-	var ballVelocity = 450;
+    var lastArrow;
+    var square;
 
-	var lastArrow;
-	var square;
+    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+        preload: preload,
+        create: create,
+        update: update
+    });
 
-	function preload() {
-
-		game.load.image('movingBar', '/assets/bar.jpg');
-		game.load.image('movingBar2', '/assets/bar-2.jpg');
-		game.load.image('barLeft', '/assets/platformV.png');
-		game.load.image('barRight', '/assets/platformV.png');
-		game.load.image('ball', '/assets/ball.gif');
-		game.load.image("barTop" ,  "/assets/platform.png");
-		game.load.image("square" ,  "/assets/square.png");
-	}
-
-	function create() {
-
-		//SQUARE
-		square = game.add.sprite(game.width - 200, game.width / 2, "square");
-		game.physics.arcade.enable(square);
-		square.body.immovable = true;
-
- 		//MOVING BAR
-		movingBar = game.add.sprite(game.width / 2, game.height / 1.09, "movingBar");
-		game.physics.arcade.enable(movingBar);
-		movingBar.body.immovable = true;
-
-		//BALL
-		ball = game.add.sprite(movingBar.x + movingBar.width / 2, 100, "ball");
-		game.physics.arcade.enable(ball);
-		ball.body.gravity.y = 200;
-		ball.body.collideWorldBounds = true;
-
-		//LEFT BAR
-		barLeft = game.add.sprite(0, 0, "barLeft");
-		barLeft.scale.setTo(0.5, 1.5);
-		game.physics.arcade.enable(barLeft);
-		barLeft.body.immovable = true;
-
-		//RIGHT BAR
-		barRight = game.add.sprite(game.width - 16, 0, "barRight");
-		barRight.scale.setTo(0.5, 1.5);
-		game.physics.arcade.enable(barRight);
-		barRight.body.immovable = true;
-
-		//TOP BAR
-		barTop = game.add.sprite(0, 0, "barTop");
-		barTop.scale.setTo(2.5, 0.5);
-		game.physics.arcade.enable(barTop);
-		barTop.body.immovable = true;
-
-	}
-
-	function update() {
-
-		game.physics.arcade.collide(movingBar, ball);
-		game.physics.arcade.collide(barLeft, ball);
-		game.physics.arcade.collide(barRight, ball);
-		game.physics.arcade.collide(barTop, ball);
-		game.physics.arcade.collide(square, ball);
-
-		cursors = game.input.keyboard.createCursorKeys();
-
-		movingBar.body.velocity.x = 0;
-
-		if (cursors.left.isDown) {
-			lastArrow = "left";
-			movingBar.body.velocity.x = -400;
-		}
-
-		if (cursors.right.isDown) {
-			lastArrow = "right";
-			movingBar.body.velocity.x = 400;
-		}
-
-		if (ball.body.touching.down) {
-			ball.body.velocity.y = -ballVelocity;
-
-			if (lastArrow == "right") {
-				ball.body.velocity.x = ballVelocity;
-				
-			}
-
-			if (lastArrow == "left") {
-				ball.body.velocity.x = -ballVelocity;
-			}
-		}
-
-		if (ball.body.touching.left) {
-			ball.body.velocity.x = ballVelocity;
-		}
-		
-		if (ball.body.touching.right) {
-			ball.body.velocity.x = -ballVelocity;
-		}
-
-		square.body.velocity.x = -20
-
-
-	}
 </script>
 
 </body>

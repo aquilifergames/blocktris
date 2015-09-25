@@ -1,8 +1,6 @@
 function create() {
     //SQUARE
-    square = game.add.sprite(game.width - 200, game.width / 2, "square");
-    game.physics.arcade.enable(square);
-    square.body.immovable = true;
+    square = createRombo();
 
     //MOVING BAR
     movingBar = game.add.sprite(game.width / 2, game.height / 1.09, "movingBar");
@@ -32,4 +30,24 @@ function create() {
     barTop.scale.setTo(2.5, 0.5);
     game.physics.arcade.enable(barTop);
     barTop.body.immovable = true;
+}
+
+function createRombo(){
+    var rombo = game.add.group();
+
+    var s1 = rombo.create(200,100, "square");
+    var s2 = rombo.create(s1.x + s1.width - 12, s1.y + s1.height - 12, "square");
+  //  var s3 = rombo.create(s1.x - s1.width / 2 ,s1.y - s1.height / 2, "square");
+
+    rombo.enableBody = true;
+    
+    rombo.forEach(function(item) {
+        item.angle = 45;
+        game.physics.arcade.enable(item);
+        item.body.velocity.x = 20;
+        item.anchor.setTo(0.5, 0.5);
+        item.body.immovable = true;
+    }, this);
+
+    return rombo;
 }

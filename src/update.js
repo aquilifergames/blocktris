@@ -41,7 +41,4 @@ function update() {
         ball.body.velocity.x = -ballVelocity;
     }
 
-    square.body.velocity.x = -20
-
-
 }
